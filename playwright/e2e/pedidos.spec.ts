@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { TIMEOUT } from 'node:dns'
 import { text } from 'node:stream/consumers'
 
 
@@ -20,7 +21,6 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   //await page.locator('//buton[text()="BUscar Pedido"]').click()
   await page.getByRole('button', { name: 'Buscar Pedido' }).click()
   
-
   /// Assert
   //await page.waitForTimeout(10000) Esse tipo de controle para resolver lentidão de sistemas não é legal
   //await expect(page.getByTestId('order-result-id')).toBeVisible({timeout: 10000}) //melhor fazer o timeout explicito
@@ -32,4 +32,18 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await expect(page.getByText('APROVADO')).toBeVisible({timeout: 10000});
   //await expect(page.getByTestId('order-result-VLO-B7TAHI')).toContainText('APROVADO'); (CODEGEN SUGERIU ESSE CÓDIGO POREM ENTENTDI QUE NAO PODERIA SER USADO O GETBYTESTID)
   await expect(page.locator('//div[normalize-space()="APROVADO"]')).toHaveText('APROVADO')
+
+  // correção Papito
+  // xpath para encontrar o numero do pedido ('//p[text()="Pedido"]/..//p[text()="VLOB7TAHI"]')
+  // **** primeira solução ****
+  // const orderCode = page.locator('//p[text()="Pedido"]/..//p[text()="VLOB7TAHI"]')
+  // await expect(orderCode).toBeVisible({timeout:10000})
+  // ou pode se usar a outra forma
+  // const containerPedido = page.getByRole('paragraph')
+  //   .filter({hasText: /^Pedido$/}) //expressão regular
+  //   .locator('..') //sobe para o elemento pai (a div que agrupa ambos)
+  // await expect(containerPedido).toContainText('VLOB7TAHI',{timeout:10000})
+
+  // await expect(page.getByText('APROVADO')).toBeVisible()
+   
 })
