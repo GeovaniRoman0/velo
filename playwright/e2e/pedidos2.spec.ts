@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { generateOrderCode } from '../support/helpers'
-
+import { OrderLockupPage } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert
 
@@ -48,8 +48,8 @@ test.describe('Consulta de Pedido', () => {
         }
 
         // Act
-        await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-        await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+        const consultaPedido = new OrderLockupPage(page)
+        await consultaPedido.searchOrder(order.number)
 
         // Assert
         // const containerPedido = page.getByRole('paragraph')
@@ -106,8 +106,8 @@ test.describe('Consulta de Pedido', () => {
         const order = generateOrderCode()
 
         // Act
-        await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
-        await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+        const consultaPedido = new OrderLockupPage(page)
+        await consultaPedido.searchOrder(order)
 
         //  await expect(page.locator('#root')).toContainText('Pedido não encontrado')
         //  await expect(page.locator('#root')).toContainText('Verifique o número do pedido e tente novamente')
@@ -144,8 +144,8 @@ test.describe('Consulta de Pedido', () => {
         }
 
         // Act
-        await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-        await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+        const consultaPedido = new OrderLockupPage(page)
+        await consultaPedido.searchOrder(order.number)
 
         // Assert
         // const containerPedido = page.getByRole('paragraph')
@@ -213,8 +213,8 @@ test.describe('Consulta de Pedido', () => {
         }
 
         // Act
-        await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-        await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+        const consultaPedido = new OrderLockupPage(page)
+        await consultaPedido.searchOrder(order.number)
 
         // Assert
         // const containerPedido = page.getByRole('paragraph')
